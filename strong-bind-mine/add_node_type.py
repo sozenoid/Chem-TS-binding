@@ -92,7 +92,7 @@ def node_to_add(all_nodes,val):
 
 def chem_kn_simulation(model,state,val,added_nodes):
     all_posible=[]
-
+    maxlen=82
     end="\n"
     #val2=['C', '(', ')', 'c', '1', '2', 'o', '=', 'O', 'N', '3', 'F', '[C@@H]', 'n', '-', '#', 'S', 'Cl', '[O-]', '[C@H]', '[NH+]', '[C@]', 's', 'Br', '/', '[nH]', '[NH3+]', '4', '[NH2+]', '[C@@]', '[N+]', '[nH+]', '\\', '[S@]', '5', '[N-]', '[n+]', '[S@@]', '[S-]', '6', '7', 'I', '[n-]', 'P', '[OH+]', '[NH-]', '[P@@H]', '[P@@]', '[PH2]', '[P@]', '[P+]', '[S+]', '[o+]', '[CH2-]', '[CH-]', '[SH+]', '[O+]', '[s+]', '[PH+]', '[PH]', '8', '[S@@+]']
     for i in range(len(added_nodes)):
@@ -111,8 +111,10 @@ def chem_kn_simulation(model,state,val,added_nodes):
 
         get_int=get_int_old
 
+        print get_int
         x=np.reshape(get_int,(1,len(get_int)))
-        x_pad= sequence.pad_sequences(x, maxlen=82, dtype='int32',
+        print x
+        x_pad= sequence.pad_sequences(x, maxlen=maxlen, dtype='int32',
             padding='post', truncating='pre', value=0.)
         while not get_int[-1] == val.index(end):
             predictions=model.predict(x_pad)
@@ -129,9 +131,9 @@ def chem_kn_simulation(model,state,val,added_nodes):
             next_int_test=sorted(range(len(a)), key=lambda i: a[i])[-10:]
             get_int.append(next_int)
             x=np.reshape(get_int,(1,len(get_int)))
-            x_pad = sequence.pad_sequences(x, maxlen=82, dtype='int32',
+            x_pad = sequence.pad_sequences(x, maxlen=maxlen, dtype='int32',
                 padding='post', truncating='pre', value=0.)
-            if len(get_int)>82:
+            if len(get_int)>maxlen:
                 break
         total_generated.append(get_int)
         all_posible.extend(total_generated)

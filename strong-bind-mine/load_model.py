@@ -40,7 +40,8 @@ def prepare_data(smiles,all_smile):
 
 def loaded_model():
 
-    json_file = open('../RNN-model/model.json', 'r')
+    #json_file = open('../RNN-model/model-50k.json', 'r')
+    json_file = open('../RNN-model/model-rigid-hc.json', 'r')
     #json_file = open('/Users/yang/LSTM-chemical-project/protein-ligand/model.json', 'r')
     loaded_model_json = json_file.read()
     json_file.close()
@@ -48,9 +49,10 @@ def loaded_model():
 
     # load weights into new model
     #loaded_model.load_weights('/Users/yang/LSTM-chemical-project/protein-ligand/model.h5')
-    loaded_model.load_weights('../RNN-model/model.h5')
+    #loaded_model.load_weights('../RNN-model/model-50k.h5')
+    loaded_model.load_weights('../RNN-model/model-rigid-hc.h5')
     print("Loaded model from disk")
-    
+
 
     return loaded_model
 
