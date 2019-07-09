@@ -109,8 +109,8 @@ def zinc_logp(smile):
 def zinc_data_with_bracket_original():
 
     sen_space=[]
-    f = open('../data/rigid-hc','rb')
-    #f=open('../data/rigid-hc', 'rb')
+    #f = open('../data/50k_rndm_zinc_drugs_clean.smi','rb')
+    f=open('../data/rigid-hc', 'rb')
     reader = csv.reader(f)
     for row in reader:
         #word_space[row].append(reader[row])

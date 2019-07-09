@@ -217,6 +217,7 @@ if __name__ == "__main__":
     valcabulary,all_smile=zinc_processed_with_bracket(smile)
     print(valcabulary)
     print(len(all_smile))
+    print(len(valcabulary))
     X_train,y_train=prepare_data(valcabulary,all_smile)
   
     maxlen=81
@@ -229,8 +230,10 @@ if __name__ == "__main__":
     
     
     y_train_one_hot = np.array([to_categorical(sent_label, num_classes=len(valcabulary)) for sent_label in y])
+    print "y shape is here"
     print (y_train_one_hot.shape)
 
+     
     vocab_size=len(valcabulary)
     embed_size=len(valcabulary)
 
@@ -251,5 +254,5 @@ if __name__ == "__main__":
     optimizer=Adam(lr=0.01)
     print(model.summary())
     model.compile(loss='categorical_crossentropy', optimizer=optimizer, metrics=['accuracy'])
-    model.fit(X,y_train_one_hot,nb_epoch=100, batch_size=512,validation_split=0.1)
+    model.fit(X,y_train_one_hot,nb_epoch=1, batch_size=512,validation_split=0.1)
     save_model(model)

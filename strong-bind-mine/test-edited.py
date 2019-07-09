@@ -10,14 +10,16 @@ from keras.preprocessing import sequence
 from load_model import loaded_model
 
 def chem_kn_simulation(model,state,val):
-    max_len = 82
+    max_len = 81
     get_int = [val.index(state[j]) for j in range(len(state))]
     print get_int
     x       = np.reshape(get_int,(1,len(get_int)))
     x_pad   = sequence.pad_sequences(x, maxlen = max_len, dtype = 'int32', padding = 'post', truncating = 'pre', value = 0.0)
-
+    print x_pad
     while not get_int[-1] == val.index("\n"):
+        print "HELLO, get_int is {} and {} symbols long and val is {} long".format(get_int, len(get_int), len(val))
         predictions   = model.predict(x_pad)
+        print "predictions are #{}".format(predictions.shape), predictions
         #print("shape of RNN",predictions.shape)
         a             = predictions[0][len(get_int) - 1]
         preds         = np.asarray(a).astype('float64')
@@ -33,13 +35,14 @@ def chem_kn_simulation(model,state,val):
         if len(get_int) > max_len:
             break
 
-    # print([get_int])
+    print([get_int])
     return [get_int]
 
 
 def predict_smile(all_posible,val):
     new_compound = []
     for i in range(len(all_posible)):
+        print i, all_posible[i], len(val)
         generate_smile  = [val[all_posible[i][j]] for j in range(len(all_posible[i])-1)]
         # generate_smile.remove("&")
         new_compound.append(generate_smile)
@@ -58,18 +61,20 @@ def make_input_smile(generate_smile):
 
 
 ### Example of using the above three functions to generate molecules
-val = [ '\n', '&','C', '(', ')', 'c', '1', '2', 'o', '=', 'O', 'N', '3', 'F',
-        '[C@@H]', 'n', '-', '#', 'S', 'Cl', '[O-]', '[C@H]', '[NH+]', '[C@]',
-        's', 'Br', '/', '[nH]', '[NH3+]', '4', '[NH2+]', '[C@@]', '[N+]',
-        '[nH+]', '\\', '[S@]', '5', '[N-]', '[n+]', '[S@@]', '[S-]', '6', '7',
-        'I', '[n-]', 'P', '[OH+]', '[NH-]', '[P@@H]', '[P@@]', '[PH2]',
-        '[P@]', '[P+]', '[S+]', '[o+]', '[CH2-]', '[CH-]', '[SH+]', '[O+]',
-        '[s+]', '[PH+]', '[PH]', '8', '[S@@+]']
-valc = [ '\n', '&','C', '(', ')', 'c', '1', '2', '=','#']
+# =============================================================================
+# val = [ '\n', '&','C', '(', ')', 'c', '1', '2', 'o', '=', 'O', 'N', '3', 'F',
+#         '[C@@H]', 'n', '-', '#', 'S', 'Cl', '[O-]', '[C@H]', '[NH+]', '[C@]',
+#         's', 'Br', '/', '[nH]', '[NH3+]', '4', '[NH2+]', '[C@@]', '[N+]',
+#         '[nH+]', '\\', '[S@]', '5', '[N-]', '[n+]', '[S@@]', '[S-]', '6', '7',
+#         'I', '[n-]', 'P', '[OH+]', '[NH-]', '[P@@H]', '[P@@]', '[PH2]',
+#         '[P@]', '[P+]', '[S+]', '[o+]', '[CH2-]', '[CH-]', '[SH+]', '[O+]',
+#         '[s+]', '[PH+]', '[PH]', '8', '[S@@+]']
+# valc = [ '\n', '&','C', '(', ')', 'c', '1', '2', '=','#']
+# =============================================================================
 if __name__ == "__main__":
     smiles         = zinc_data_with_bracket_original()
     val, all_smile = zinc_processed_with_bracket(smiles)
-    print val
+    print val, len(val)
     all_smile[0].remove('&')
     all_smile[0].remove('\n')
     print(all_smile[0])
@@ -79,7 +84,7 @@ if __name__ == "__main__":
 
     #all_posible    = chem_kn_simulation(model,all_smile[0],val)
     all_posible    = chem_kn_simulation(model,['c'],val)
-    generate_smile = predict_smile(all_posible,valc)
+    generate_smile = predict_smile(all_posible,val)
     new_compound = make_input_smile(generate_smile)
 
     print(new_compound)
