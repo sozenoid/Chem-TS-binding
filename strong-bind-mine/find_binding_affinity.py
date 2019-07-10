@@ -140,6 +140,7 @@ def converge_molecule(mol):
 	# ffopenmm = AllChem.MMFFGetMoleculeOpenMMForceField(mol, ff)
 	# ffopenmm.InitializeContext('CPU')
 	cf = ff.Minimize(n_steps, tol, tol)
+	print cf
 	return cf, ff.CalcEnergy()
 
 def return_binding_affinity(smiles, printmol=False):

@@ -130,6 +130,11 @@ def MCTS(root, verbose = False):
 
             """expansion step"""
             """calculate how many nodes will be added under current leaf"""
+# =============================================================================
+#             state.position.remove("&")
+#             state.position.remove("\n")
+#             print state.position
+# =============================================================================
             expanded=expanded_node(model,state.position,val)
             nodeadded=node_to_add(expanded,val)
 
@@ -261,5 +266,6 @@ if __name__ == "__main__":
     val2=['C', '(', ')', 'c', '1', '2', 'o', '=', 'O', 'N', '3', 'F', '[C@@H]', 'n', '-', '#', 'S', 'Cl', '[O-]', '[C@H]', '[NH+]', '[C@]', 's', 'Br', '/', '[nH]', '[NH3+]', '4', '[NH2+]', '[C@@]', '[N+]', '[nH+]', '\\', '[S@]', '5', '[N-]', '[n+]', '[S@@]', '[S-]', '6', '7', 'I', '[n-]', 'P', '[OH+]', '[NH-]', '[P@@H]', '[P@@]', '[PH2]', '[P@]', '[P+]', '[S+]', '[o+]', '[CH2-]', '[CH-]', '[SH+]', '[O+]', '[s+]', '[PH+]', '[PH]', '8', '[S@@+]']
     #val2=['C', '(', ')', 'c']
     model=loaded_model()
+    print model.summary()
     #acitivity_model=loaded_activity_model()
     valid_compound=UCTchemical()
