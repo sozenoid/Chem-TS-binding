@@ -7,6 +7,9 @@ Molecule Design using Monte Carlo Tree Search with Neural Rollout. ChemTS can de
 3. [rdkit](https://anaconda.org/rdkit/rdkit)
 4. [rDock](http://rdock.sourceforge.net/installation/)
 
+
+To install I've used: conda create -c rdkit -n tf-env rdkit tensorflow keras=2.0.5
+with Anaconda 3 and installed on the go the missing packages using pip
 #  How to use ChemTS? 
 For usage, please refer the following instructions.  Currently, the package hasn't been finished very well... If you want to implement your own simulator, please check add_node_type.py. The full package will be updated later.
 
